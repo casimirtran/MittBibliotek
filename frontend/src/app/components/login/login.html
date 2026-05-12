@@ -1,0 +1,21 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+    <div class="card shadow">
+      <div class="card-body text-center">
+        <i class="fa fa-user-circle fa-4x mb-3 text-primary"></i>
+        <h3 class="card-title">Logga in</h3>
+        <p class="text-danger" *ngIf="message">{{ message }}</p>
+        
+        <div class="mb-3">
+          <input type="text" class="form-control" placeholder="Användarnamn" [(ngModel)]="user.username">
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" placeholder="Lösenord" [(ngModel)]="user.passwordHash">
+        </div>
+        
+        <button class="btn btn-primary w-100 mb-2" (click)="onLogin()">Logga in</button>
+        <button class="btn btn-outline-secondary w-100" (click)="onRegister()">Skapa konto</button>
+      </div>
+    </div>
+  </div>
+</div>

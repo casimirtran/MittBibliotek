@@ -1,0 +1,34 @@
+<div class="row mt-4">
+  <div class="col-md-4">
+    <div class="card shadow mb-4 border-info">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0">{{ isEditing ? 'Redigera Citat' : 'Lägg till nytt citat' }}</h5>
+      </div>
+      <div class="card-body">
+        <textarea class="form-control mb-2" rows="3" placeholder="Citatets text..." [(ngModel)]="currentQuote.text"></textarea>
+        <input type="text" class="form-control mb-3" placeholder="Vem sa det?" [(ngModel)]="currentQuote.author">
+        <button class="btn btn-info text-white w-100" (click)="saveQuote()"><i class="fa fa-save"></i> Spara citat</button>
+        <button class="btn btn-secondary w-100 mt-2" *ngIf="isEditing" (click)="resetForm()">Avbryt</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-8">
+    <div class="card shadow">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Mina Favoritcitat (Lägg till 5 st!)</h5>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote border-start border-4 border-info ps-3 mb-4" *ngFor="let quote of quotes">
+          <p class="mb-2" style="font-style: italic;">"{{ quote.text }}"</p>
+          <footer class="blockquote-footer">{{ quote.author }}</footer>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-info me-2" (click)="editQuote(quote)"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteQuote(quote.id)"><i class="fa fa-trash"></i></button>
+          </div>
+        </blockquote>
+        <p class="text-muted text-center" *ngIf="quotes.length === 0">Inga citat tillagda ännu.</p>
+      </div>
+    </div>
+  </div>
+</div>
