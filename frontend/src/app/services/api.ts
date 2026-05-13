@@ -4,7 +4,7 @@ import { AuthService } from './auth';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private apiUrl = 'http://localhost:5226/api';
+  private apiUrl = 'https://mittbibliotek-backend.onrender.com';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
