@@ -6,14 +6,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lägg till databasen
+// Använd databasfilen direkt
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite("Data Source=app.db"));
 
-// Lägg till Controllers (hanterar förfrågningar)
 builder.Services.AddControllers();
 
-// Tillåt vår framtida hemsida (Angular) att hämta data
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -22,9 +20,8 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader());
 });
 
-// Ställ in JWT (Säkerhet & Inloggning)
-var jwtKey = builder.Configuration["Jwt:Key"];
-var keyBytes = Encoding.UTF8.GetBytes(jwtKey!);
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "MinSuperHemligaNyckelSomArMinst32TeckenLang123!";
+var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -40,6 +37,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Skapa databasen automatiskt på servern
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
