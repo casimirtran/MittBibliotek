@@ -6,9 +6,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// FIXEN: Här lägger vi databasen i /tmp/ mappen som har skrivrättigheter på servern!
+// DET TUNGA ARTILLERIET: Databasen körs i RAM-minnet. Inga filrättigheter behövs!
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=/tmp/app.db"));
+    options.UseInMemoryDatabase("LibraryDb"));
 
 builder.Services.AddControllers();
 
@@ -38,7 +38,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Skapa databasen automatiskt
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

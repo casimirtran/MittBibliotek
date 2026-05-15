@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'https://mittbibliotek-backend.onrender.com';
+  // VIKTIGT: Kontrollera att din Render-länk stämmer exakt här nedanför!
+  private apiUrl = 'https://mittbibliotek-backend.onrender.com/api/auth';
 
   constructor(private http: HttpClient, private router: Router) {}
 
