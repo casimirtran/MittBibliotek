@@ -6,9 +6,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Använd databasfilen direkt
+// FIXEN: Här lägger vi databasen i /tmp/ mappen som har skrivrättigheter på servern!
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=app.db"));
+    options.UseSqlite("Data Source=/tmp/app.db"));
 
 builder.Services.AddControllers();
 
@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Skapa databasen automatiskt på servern
+// Skapa databasen automatiskt
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
